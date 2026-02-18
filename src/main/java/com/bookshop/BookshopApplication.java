@@ -1,8 +1,9 @@
 package com.bookshop;
 
 import com.bookshop.model.Book;
-import com.bookshop.repository.BookRepository;
 import java.math.BigDecimal;
+import java.util.List;
+import com.bookshop.service.BookService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,16 +16,18 @@ public class BookshopApplication {
     }
 
     @Bean
-    public CommandLineRunner demo(BookRepository repository) {
+    public CommandLineRunner demo(BookService service) {
         return args -> {
             Book book = new Book();
             book.setTitle("It");
             book.setAuthor("Stephen King");
             book.setIsbn("1111");
             book.setPrice(new BigDecimal("200"));
-            repository.save(book);
+            service.save(book);
+            System.out.println(book);
 
-            System.out.println("The book successfully added to db");
+            List<Book> books = service.findAll();
+            System.out.println(books);
         };
     }
 }
