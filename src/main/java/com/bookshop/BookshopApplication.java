@@ -1,9 +1,9 @@
 package com.bookshop;
 
 import com.bookshop.model.Book;
+import com.bookshop.service.BookService;
 import java.math.BigDecimal;
 import java.util.List;
-import com.bookshop.service.BookService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
