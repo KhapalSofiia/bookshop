@@ -2,7 +2,6 @@ package com.bookshop.service;
 
 import com.bookshop.dto.BookDto;
 import com.bookshop.dto.CreateBookRequestDto;
-import com.bookshop.model.Book;
 import java.util.List;
 
 public interface BookService {
