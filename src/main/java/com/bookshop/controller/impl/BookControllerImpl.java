@@ -51,8 +51,7 @@ public class BookControllerImpl implements BookController {
 
     @Override
     @DeleteMapping("/{id}")
-    public void deleteBook(@PathVariable Long id){
+    public void deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
     }
-
 }
