@@ -1,10 +1,12 @@
 package com.bookshop.repository.impl;
 
 import com.bookshop.exception.DataProcessingException;
+import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.model.Book;
 import com.bookshop.repository.BookRepository;
 import jakarta.persistence.EntityManagerFactory;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,6 +48,18 @@ public class BookRepositoryImpl implements BookRepository {
             return query.getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Can not find all books.", e);
+        }
+    }
+
+    @Override
+    public Optional<Book> getBookById(Long id) {
+        try (Session session = entityManagerFactory.unwrap(SessionFactory.class).openSession()) {
+            Query<Book> query = session.createQuery("from Book where id = :id",
+                    Book.class);
+            query.setParameter("id", id);
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (Exception e) {
+            throw new EntityNotFoundException("Can not find book with id: " + id, e);
         }
     }
 }
