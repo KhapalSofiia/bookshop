@@ -2,7 +2,7 @@ package com.bookshop.controller;
 
 import com.bookshop.dto.BookDto;
 import com.bookshop.dto.CreateBookRequestDto;
-import com.bookshop.dto.UpdateBookRequestDto;
+
 import java.util.List;
 
 public interface BookController {
@@ -12,7 +12,7 @@ public interface BookController {
 
     BookDto createBook(CreateBookRequestDto bookDto);
 
-    BookDto updateBook(Long id, UpdateBookRequestDto updateBookRequestDto);
+    BookDto updateBook(Long id, CreateBookRequestDto createBookRequestDto);
 
     void deleteBook(Long id);
 }
