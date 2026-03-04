@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: long varbinary
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -28,9 +28,10 @@ databaseChangeLog:
                   type: varchar
                   constraints:
                     nullable: false
+                    unique: true
               - column:
                   name: price
-                  type: big decimal
+                  type: numeric(10,2)
                   constraints:
                     nullable: false
               - column:
