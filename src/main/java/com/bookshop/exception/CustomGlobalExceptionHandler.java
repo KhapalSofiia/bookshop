@@ -1,15 +1,23 @@
 package com.bookshop.exception;
 
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.List;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import java.util.Map;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class CustomGlobalExceptionHandler{
+public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     protected ResponseEntity<String> handleEntityNotFoundException (
@@ -18,14 +26,29 @@ public class CustomGlobalExceptionHandler{
                 HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<List<String>> handleValidationException (
-            MethodArgumentNotValidException e) {
-        List<String> errors = e.getBindingResult().getAllErrors()
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid (
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", LocalDateTime.now());
+        List<String> errors = ex.getBindingResult().getAllErrors()
                 .stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .map(this::getErrorMessage)
                 .toList();
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        body.put("errors", errors);
+        return new ResponseEntity<>(body, headers, status);
+    }
+
+    private String getErrorMessage(ObjectError objectError) {
+        if (objectError instanceof FieldError) {
+            String field = ((FieldError) objectError).getField();
+            String message = objectError.getDefaultMessage();
+            return field + " " + message;
+        }
+        return objectError.getDefaultMessage();
     }
 
     @ExceptionHandler(Exception.class)
@@ -33,6 +56,6 @@ public class CustomGlobalExceptionHandler{
             Exception e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
- }
+}
 
 
