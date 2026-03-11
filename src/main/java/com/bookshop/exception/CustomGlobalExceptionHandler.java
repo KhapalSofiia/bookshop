@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @RestControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -39,7 +40,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 .map(this::getErrorMessage)
                 .toList();
         body.put("errors", errors);
-        return new ResponseEntity<>(body, headers, status);
+        return new ResponseEntity<>(body, headers, BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<String> handleAllException(
+            Exception e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private String getErrorMessage(ObjectError objectError) {
@@ -49,11 +56,5 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
             return field + " " + message;
         }
         return objectError.getDefaultMessage();
-    }
-
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<String> handleAllException(
-            Exception e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
