@@ -8,13 +8,12 @@ import jakarta.validation.ConstraintValidatorContext;
 public class FieldMatchValidator
         implements ConstraintValidator<FieldMatch, UserRegistrationDto> {
 
-
     @Override
     public boolean isValid(
             UserRegistrationDto dto,
             ConstraintValidatorContext context
     ) {
-        return dto.getPassword() != null && dto.getPassword().
-                equals(dto.getRepeatPassword());
+        return dto.getPassword() != null && dto.getPassword()
+                .equals(dto.getRepeatPassword());
     }
 }

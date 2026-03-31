@@ -16,12 +16,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    public  UserDto registration(UserRegistrationDto userRegistrationDto) {
+    public UserDto registration(UserRegistrationDto userRegistrationDto) {
         if (userRepository.findByEmail(userRegistrationDto.getEmail())) {
             throw new RegistrationException("User with this email already exists.");
         }
         if (userRegistrationDto.getPassword()
-                .equals(userRegistrationDto.getRepeatPassword())){
+                .equals(userRegistrationDto.getRepeatPassword())) {
             throw new RegistrationException("Passwords don't match.");
         }
         User user = new User();
