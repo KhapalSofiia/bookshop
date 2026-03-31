@@ -28,6 +28,13 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
                 HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(RegistrationException.class)
+    protected ResponseEntity<String> handleRegistrationException(
+            RegistrationException e) {
+        return new ResponseEntity<>("Could not register user: " + e.getMessage(),
+                HttpStatus.BAD_REQUEST);
+    }
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
