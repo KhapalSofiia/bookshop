@@ -5,6 +5,6 @@ import com.bookshop.dto.UserRegistrationDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface AuthenticationService {
+public interface UserService {
     UserDto registration(UserRegistrationDto userRegistrationDto);
 }

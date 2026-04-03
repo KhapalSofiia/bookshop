@@ -32,7 +32,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     protected ResponseEntity<String> handleRegistrationException(
             RegistrationException e) {
         return new ResponseEntity<>("Could not register user: " + e.getMessage(),
-                HttpStatus.BAD_REQUEST);
+                HttpStatus.CONFLICT);
     }
 
     @Override

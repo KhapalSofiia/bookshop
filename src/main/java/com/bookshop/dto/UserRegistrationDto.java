@@ -7,8 +7,9 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-@FieldMatch
-public class UserRegistrationDto {
+@FieldMatch(
+        message = "Password and repeated password must be equal"
+)public class UserRegistrationDto {
     @NotBlank
     @Email
     private String email;
@@ -20,5 +21,5 @@ public class UserRegistrationDto {
     private String firstName;
     @NotBlank
     private String lastName;
-    private String shippingName;
+    private String shippingAddress;
 }
