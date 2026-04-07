@@ -1,5 +1,6 @@
 package com.bookshop.service.impl;
 
+import com.bookshop.config.SecurityConfig;
 import com.bookshop.dto.UserDto;
 import com.bookshop.dto.UserRegistrationDto;
 import com.bookshop.exception.RegistrationException;
@@ -8,6 +9,7 @@ import com.bookshop.model.User;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final SecurityConfig securityConfig;
 
     public UserDto registration(UserRegistrationDto userRegistrationDto) {
         if (userRepository.existsByEmail(userRegistrationDto.getEmail())) {
@@ -24,6 +27,10 @@ public class UserServiceImpl implements UserService {
         }
 
         User user = userMapper.toModel(userRegistrationDto);
+
+        PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
+        String encodedPassword = passwordEncoder.encode(userRegistrationDto.getPassword());
+        user.setPassword(encodedPassword);
 
         userRepository.save(user);
         return userMapper.toUserDto(user);
