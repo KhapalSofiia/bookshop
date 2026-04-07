@@ -8,6 +8,7 @@ import com.bookshop.model.User;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,12 +24,8 @@ public class UserServiceImpl implements UserService {
                     + " already exists.");
         }
 
-        User user = new User();
-        user.setEmail(userRegistrationDto.getEmail());
-        user.setPassword(userRegistrationDto.getPassword());
-        user.setFirstName(userRegistrationDto.getFirstName());
-        user.setLastName(userRegistrationDto.getLastName());
-        user.setShippingAddress(userRegistrationDto.getShippingAddress());
+        User user = userMapper.toModel(userRegistrationDto);
+
         userRepository.save(user);
         return userMapper.toUserDto(user);
     }
