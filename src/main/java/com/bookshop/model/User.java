@@ -37,6 +37,5 @@ public class User {
 
     private String shippingAddress;
 
-    @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 }
