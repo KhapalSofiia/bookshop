@@ -26,6 +26,10 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.toModel(userRegistrationDto);
 
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(userRegistrationDto.getPassword());
+        user.setPassword(hashedPassword);
+
         userRepository.save(user);
         return userMapper.toUserDto(user);
     }
