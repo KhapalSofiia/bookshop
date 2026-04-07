@@ -4,6 +4,7 @@ import com.bookshop.annotations.FieldMatch;
 import com.bookshop.dto.UserRegistrationDto;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import java.util.Objects;
 
 public class FieldMatchValidator
         implements ConstraintValidator<FieldMatch, UserRegistrationDto> {
@@ -13,7 +14,6 @@ public class FieldMatchValidator
             UserRegistrationDto dto,
             ConstraintValidatorContext context
     ) {
-        return dto.getPassword() != null && dto.getPassword()
-                .equals(dto.getRepeatPassword());
+        return Objects.equals(dto.getPassword(), dto.getRepeatPassword());
     }
 }
