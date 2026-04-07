@@ -19,7 +19,5 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
-        - addCheckConstraint:
-            tableName: roles
-            constraintName: chk_roles_name
-            checkCondition: "name IN ('ADMIN','USER')"
+        - sql:
+            sql: ALTER TABLE roles ADD CONSTRAINT chk_roles_name CHECK (name IN ('ADMIN','USER'));

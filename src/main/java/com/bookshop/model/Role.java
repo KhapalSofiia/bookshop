@@ -23,10 +23,10 @@ public class Role implements GrantedAuthority {
 
     @Column(nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
-    private RoleNameEnum role;
+    private RoleNameEnum name;
 
     public String getAuthority() {
-        return role.name();
+        return name.name();
     }
 
     public enum RoleNameEnum {
