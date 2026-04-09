@@ -1,5 +1,6 @@
 package com.bookshop.model;
 
+import com.bookshop.model.enums.RoleNameEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,10 +28,5 @@ public class Role implements GrantedAuthority {
 
     public String getAuthority() {
         return name.name();
-    }
-
-    public enum RoleNameEnum {
-        ADMIN,
-        USER
     }
 }
