@@ -8,4 +8,6 @@ import org.mapstruct.Mapper;
 @Mapper(config = MapperConfig.class)
 public interface CategoryMapper {
     CategoryDto toCategoryDto(Category category);
+
+    Category toEntity(CategoryDto categoryDTO);
 }
