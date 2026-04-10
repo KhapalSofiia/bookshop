@@ -1,0 +1,53 @@
+package com.bookshop.controller;
+
+import com.bookshop.dto.BookDto;
+import com.bookshop.dto.CategoryDto;
+import com.bookshop.service.BookService;
+import com.bookshop.service.CategoryService;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+
+@RestController
+public class CategoryController {
+    private CategoryService categoryService;
+    private BookService bookService;
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryDto createCategory(CategoryDto categoryDto) {
+        return categoryService.save(categoryDto);
+    }
+
+    @GetMapping
+    public List<CategoryDto> getAll() {
+        return categoryService.findAll();
+    }
+
+    @GetMapping("category/{id}")
+    public CategoryDto getCategoryById(@PathVariable Long id) {
+        return categoryService.getById(id);
+    }
+
+    @PutMapping("category/{id}")
+    public CategoryDto updateCategory(@PathVariable Long id, CategoryDto categoryDto) {
+        return categoryService.update(id, categoryDto);
+    }
+
+    @DeleteMapping("category/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCategory(@PathVariable Long id) {
+        categoryService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/books")
+    public List<BookDto> getBooksByCategoryId(@PathVariable Long id) {
+        return bookService.getBooksByCategoryId(id);
+    }
+}

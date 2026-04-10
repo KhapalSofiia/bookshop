@@ -6,7 +6,9 @@ import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.mapper.BookMapper;
 import com.bookshop.model.Book;
 import com.bookshop.repository.BookRepository;
+import com.bookshop.repository.UserRepository;
 import com.bookshop.service.BookService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
+    private final UserRepository userRepository;
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
@@ -57,5 +60,12 @@ public class BookServiceImpl implements BookService {
                     + " not found");
         }
         bookRepository.deleteById(id);
+    }
+
+    public List<BookDto> getBooksByCategoryId(Long id) {
+        return bookRepository.findAllByCategoryId(id)
+                .stream()
+                .map(bookMapper::toBookDto)
+                .toList();
     }
 }
