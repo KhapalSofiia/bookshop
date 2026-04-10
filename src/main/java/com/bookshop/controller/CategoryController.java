@@ -2,6 +2,7 @@ package com.bookshop.controller;
 
 import com.bookshop.dto.BookDto;
 import com.bookshop.dto.CategoryDto;
+import com.bookshop.dto.CreateCategoryDto;
 import com.bookshop.service.BookService;
 import com.bookshop.service.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryDto createCategory(CategoryDto categoryDto) {
+    public CategoryDto createCategory(CreateCategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 

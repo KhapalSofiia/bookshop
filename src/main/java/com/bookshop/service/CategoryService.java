@@ -1,6 +1,7 @@
 package com.bookshop.service;
 
 import com.bookshop.dto.CategoryDto;
+import com.bookshop.dto.CreateCategoryDto;
 import java.util.List;
 
 public interface CategoryService {
@@ -8,7 +9,7 @@ public interface CategoryService {
 
     CategoryDto getById(Long id);
 
-    CategoryDto save(CategoryDto categoryDto);
+    CategoryDto save(CreateCategoryDto categoryDto);
 
     CategoryDto update(Long id, CategoryDto categoryDto);
 
