@@ -1,6 +1,6 @@
 package com.bookshop.model.enums;
 
-public enum RoleNameEnum {
+public enum RoleName {
     ADMIN,
     USER
 }
