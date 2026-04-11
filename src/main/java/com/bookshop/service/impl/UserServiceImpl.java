@@ -7,7 +7,7 @@ import com.bookshop.exception.RegistrationException;
 import com.bookshop.mapper.UserMapper;
 import com.bookshop.model.Role;
 import com.bookshop.model.User;
-import com.bookshop.model.enums.RoleNameEnum;
+import com.bookshop.model.enums.RoleName;
 import com.bookshop.repository.RoleRepository;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.UserService;
@@ -37,11 +37,9 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(encoder.encode(userRegistrationDto.getPassword()));
 
-        Role role = roleRepository.findByName(RoleNameEnum.USER)
-                .orElseThrow(() -> new EntityNotFoundException("Role not found."));
-        Set<Role> roles = new HashSet<>();
-        roles.add(role);
-        user.setRoles(roles);
+        Role role = roleRepository.findByName(RoleName.USER)
+                .orElseThrow(() -> new EntityNotFoundException("Role USER not found."));
+        user.setRoles(Set.of(role));
 
         userRepository.save(user);
         return userMapper.toUserDto(user);
