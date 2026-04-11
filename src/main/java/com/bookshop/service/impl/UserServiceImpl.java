@@ -12,7 +12,6 @@ import com.bookshop.repository.RoleRepository;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.UserService;
 import jakarta.transaction.Transactional;
-import java.util.HashSet;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
