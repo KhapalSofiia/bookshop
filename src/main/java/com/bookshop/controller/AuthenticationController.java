@@ -5,7 +5,7 @@ import com.bookshop.dto.UserLoginRequestDto;
 import com.bookshop.dto.UserLoginResponseDto;
 import com.bookshop.dto.UserRegistrationDto;
 import com.bookshop.exception.RegistrationException;
-import com.bookshop.service.AuthenticationService;
+import com.bookshop.service.impl.AuthenticationService;
 import com.bookshop.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -36,7 +36,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @Operation(summary = "Login", description = "Login to get access to functionality")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto request) {
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
         return authService.authenticate(request);
     }
 }
