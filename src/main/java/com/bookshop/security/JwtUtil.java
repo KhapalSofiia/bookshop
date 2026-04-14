@@ -1,4 +1,4 @@
-package com.bookshop.config;
+package com.bookshop.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
