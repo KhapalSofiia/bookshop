@@ -1,8 +1,11 @@
 package com.bookshop.controller;
 
 import com.bookshop.dto.UserDto;
+import com.bookshop.dto.UserLoginRequestDto;
+import com.bookshop.dto.UserLoginResponseDto;
 import com.bookshop.dto.UserRegistrationDto;
 import com.bookshop.exception.RegistrationException;
+import com.bookshop.service.impl.AuthenticationService;
 import com.bookshop.service.impl.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Auth management", description = "Endpoints for ")
 public class AuthenticationController {
     private final UserServiceImpl authenticationService;
+    private final AuthenticationService authService;
 
     @PostMapping("/registration")
     @ResponseStatus(HttpStatus.CREATED)
@@ -28,5 +32,11 @@ public class AuthenticationController {
     public UserDto registration(@RequestBody @Valid UserRegistrationDto userRegistrationDto)
             throws RegistrationException {
         return authenticationService.registration(userRegistrationDto);
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login", description = "Login to get access to functionality")
+    public UserLoginResponseDto login(@RequestBody @Valid UserLoginRequestDto request) {
+        return authService.authenticate(request);
     }
 }
