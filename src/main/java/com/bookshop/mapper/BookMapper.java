@@ -20,7 +20,7 @@ public interface BookMapper {
     BookDto toBookDto(Book book);
 
     @AfterMapping
-    default void setCategoryIds(@MappingTarget BookDto bookDto, Book book){
+    default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {
         List<Long> categoriesIds = book.getCategories()
                 .stream()
                 .map(Category::getId)
@@ -32,7 +32,7 @@ public interface BookMapper {
     Book toModel(CreateBookRequestDto createBookRequestDto);
 
     @AfterMapping
-    default void setCategories(@MappingTarget Book book, BookDto bookDto){
+    default void setCategories(@MappingTarget Book book, BookDto bookDto) {
         Set<Category> categories = bookDto.getCategoryIds()
                 .stream()
                 .map(Category::new)

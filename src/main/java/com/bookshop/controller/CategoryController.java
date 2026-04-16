@@ -5,6 +5,7 @@ import com.bookshop.dto.CategoryDto;
 import com.bookshop.dto.CreateCategoryDto;
 import com.bookshop.service.BookService;
 import com.bookshop.service.CategoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
 
 @RestController
 @RequestMapping("/categories")
@@ -28,7 +28,7 @@ public class CategoryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public CategoryDto createCategory(@RequestBody CreateCategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
