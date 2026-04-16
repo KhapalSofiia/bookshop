@@ -5,10 +5,16 @@ import com.bookshop.dto.CreateBookRequestDto;
 import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.mapper.BookMapper;
 import com.bookshop.model.Book;
+import com.bookshop.model.Category;
 import com.bookshop.repository.BookRepository;
+import com.bookshop.repository.CategoryRepository;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.BookService;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,20 +26,28 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
     private final UserRepository userRepository;
+    private final CategoryRepository categoryRepository;
+    
 
     @Override
     public BookDto save(CreateBookRequestDto requestDto) {
         Book book = bookMapper.toModel(requestDto);
+        Set<Category> categories = new HashSet<>(categoryRepository
+                .findAllById(requestDto.getCategoryIds()));
+
+        book.setCategories(categories);
         return bookMapper
                 .toBookDto(bookRepository.save(book));
     }
 
+    @Transactional
     @Override
     public Page<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable)
                 .map(bookMapper::toBookDto);
     }
 
+    @Transactional
     @Override
     public BookDto getBookById(Long id) {
         return bookRepository.findById(id).stream()
@@ -62,8 +76,10 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
+    @Transactional
+    @Override
     public List<BookDto> getBooksByCategoryId(Long id) {
-        return bookRepository.findAllByCategoryId(id)
+        return bookRepository.findAllByCategories_Id(id)
                 .stream()
                 .map(bookMapper::toBookDto)
                 .toList();
