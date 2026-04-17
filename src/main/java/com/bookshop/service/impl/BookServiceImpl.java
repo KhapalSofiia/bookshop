@@ -8,7 +8,6 @@ import com.bookshop.model.Book;
 import com.bookshop.model.Category;
 import com.bookshop.repository.BookRepository;
 import com.bookshop.repository.CategoryRepository;
-import com.bookshop.repository.UserRepository;
 import com.bookshop.service.BookService;
 import jakarta.transaction.Transactional;
 import java.util.HashSet;
@@ -24,7 +23,6 @@ import org.springframework.stereotype.Service;
 public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     @Override
@@ -54,6 +52,7 @@ public class BookServiceImpl implements BookService {
                         + id + " not found"));
     }
 
+    @Transactional
     @Override
     public BookDto updateBook(Long id, CreateBookRequestDto request) {
         Book book = bookRepository.findById(id)
