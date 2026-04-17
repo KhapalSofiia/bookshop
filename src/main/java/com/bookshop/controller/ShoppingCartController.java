@@ -5,6 +5,8 @@ import com.bookshop.dto.ShoppingCartDto;
 import com.bookshop.dto.UpdateCartItemDto;
 import com.bookshop.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
@@ -22,13 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/cart")
 @RequiredArgsConstructor
+@Tag(name = "Shopping cart management", description = "Endpoints for managing shopping cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
     @PostMapping
     @Operation(summary = "Add book to shopping cart",
             description = "Add book to shopping cart")
-    public ShoppingCartDto addBookToCart(@RequestBody AddBookToCartDto addBookToCartDto) {
+    public ShoppingCartDto addBookToCart(@RequestBody @Valid AddBookToCartDto addBookToCartDto) {
         return shoppingCartService.addBookToCart(getEmail(), addBookToCartDto);
     }
 
@@ -36,7 +39,7 @@ public class ShoppingCartController {
     @Operation(summary = "Change quantity of books in shopping cart",
             description = "Change quantity of books in shopping cart")
     public ShoppingCartDto updateBookQuantity(@PathVariable Long cartItemId,
-                                              @RequestBody UpdateCartItemDto updateCartItemDto) {
+                                              @RequestBody @Valid UpdateCartItemDto updateCartItemDto) {
         return shoppingCartService.updateBookQuantity(getEmail(), cartItemId, updateCartItemDto);
     }
 
