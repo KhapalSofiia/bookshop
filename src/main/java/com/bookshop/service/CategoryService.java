@@ -2,10 +2,11 @@ package com.bookshop.service;
 
 import com.bookshop.dto.CategoryDto;
 import com.bookshop.dto.CreateCategoryDto;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
-    List<CategoryDto> findAll();
+    Page<CategoryDto> findAll(Pageable pageable);
 
     CategoryDto getById(Long id);
 
