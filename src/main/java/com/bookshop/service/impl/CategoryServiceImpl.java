@@ -8,8 +8,8 @@ import com.bookshop.model.Category;
 import com.bookshop.repository.CategoryRepository;
 import com.bookshop.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto update(Long id, CreateCategoryDto categoryDto) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Category with id "
-                        + id +" not found."));
+                        + id + " not found."));
 
         categoryMapper.createCategoryFromDto(categoryDto, category);
 
