@@ -5,8 +5,13 @@ import com.bookshop.dto.CategoryDto;
 import com.bookshop.dto.CreateCategoryDto;
 import com.bookshop.service.BookService;
 import com.bookshop.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
+@Tag(name = "Category management", description = "Endpoints for managing categories")
 public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
@@ -29,13 +35,13 @@ public class CategoryController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ADMIN')")
-    public CategoryDto createCategory(@RequestBody CreateCategoryDto categoryDto) {
+    public CategoryDto createCategory(@RequestBody @Valid CreateCategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
     @GetMapping
-    public List<CategoryDto> getAll() {
-        return categoryService.findAll();
+    public Page<CategoryDto> getAll(@ParameterObject Pageable pageable) {
+        return categoryService.findAll(pageable);
     }
 
     @GetMapping("/{id}")
@@ -46,7 +52,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public CategoryDto updateCategory(@PathVariable Long id,
-                                      CreateCategoryDto categoryDto) {
+                                      @RequestBody @Valid CreateCategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
