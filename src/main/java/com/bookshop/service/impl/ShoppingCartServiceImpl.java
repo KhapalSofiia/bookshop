@@ -1,19 +1,15 @@
 package com.bookshop.service.impl;
 
-
 import com.bookshop.dto.AddBookToCartDto;
-import com.bookshop.dto.CartItemDto;
 import com.bookshop.dto.ShoppingCartDto;
 import com.bookshop.dto.UpdateCartItemDto;
 import com.bookshop.exception.EntityNotFoundException;
-import com.bookshop.mapper.CartItemMapper;
 import com.bookshop.mapper.ShoppingCartMapper;
 import com.bookshop.model.Book;
 import com.bookshop.model.CartItem;
 import com.bookshop.model.ShoppingCart;
 import com.bookshop.model.User;
 import com.bookshop.repository.BookRepository;
-import com.bookshop.repository.CartItemRepository;
 import com.bookshop.repository.ShoppingCartRepository;
 import com.bookshop.repository.UserRepository;
 import com.bookshop.service.ShoppingCartService;
@@ -63,7 +59,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public ShoppingCartDto updateBookQuantity(String email, Long cartItemId,
                                               UpdateCartItemDto updateCartItemDto) {
         ShoppingCart shoppingCart = getShoppingCartByEmail(email);
-        CartItem cartItem  = shoppingCart.getCartItems()
+        CartItem cartItem = shoppingCart.getCartItems()
                 .stream()
                 .filter(item -> item.getId().equals(cartItemId))
                 .findFirst()

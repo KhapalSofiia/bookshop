@@ -4,11 +4,10 @@ import com.bookshop.config.MapperConfig;
 import com.bookshop.dto.ShoppingCartDto;
 import com.bookshop.model.CartItem;
 import com.bookshop.model.ShoppingCart;
+import com.bookshop.model.User;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import com.bookshop.model.User;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

@@ -59,7 +59,7 @@ public class Book {
     )
     private Set<Category> categories = new HashSet<>();
   
-      public Book(Long id) {
+    public Book(Long id) {
         this.id = id;
     }
 }
