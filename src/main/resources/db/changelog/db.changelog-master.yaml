@@ -8,6 +8,10 @@ databaseChangeLog:
   - include:
       file: db/changelog/init/create-users-roles-table.yaml
   - include:
+      file: db/changelog/init/create-shopping-cart-table.yaml
+  - include:
+      file: db/changelog/init/create-cart-item-table.yaml
+  - include:
       file: db/changelog/data/insert-roles.yaml
   - include:
       file: db/changelog/data/insert-admin-user.yaml
