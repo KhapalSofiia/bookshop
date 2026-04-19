@@ -8,8 +8,8 @@ import org.mapstruct.Mapping;
 
 @Mapper(config = MapperConfig.class)
 public interface CartItemMapper {
-    @Mapping(target = "shoppingCart.id", source = "shoppingCartId")
-    @Mapping(target = "book.id", source = "bookId")
+    @Mapping(target = "shoppingCart.id", source = "shoppingCart")
+    @Mapping(target = "book.id", source = "book")
     CartItemDto toDto(CartItem cartItem);
 
     @Mapping(target = "shoppingCartId", source = "shoppingCart")
