@@ -91,6 +91,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
+    @Transactional
     public ShoppingCartDto getCart(String email) {
         ShoppingCart shoppingCart = getShoppingCartByEmail(email);
 
