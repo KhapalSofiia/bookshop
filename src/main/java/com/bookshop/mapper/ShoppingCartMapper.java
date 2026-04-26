@@ -4,7 +4,6 @@ import com.bookshop.config.MapperConfig;
 import com.bookshop.dto.ShoppingCartDto;
 import com.bookshop.model.CartItem;
 import com.bookshop.model.ShoppingCart;
-import com.bookshop.model.User;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,7 +29,7 @@ public interface ShoppingCartMapper {
         shoppingCartDto.setCartItemIds(cartItemIds);
     }
 
-    @Mapping(target = "user", source = "userId")
+    @Mapping(target = "user", ignore = true)
     @Mapping(target = "cartItems", ignore = true)
     ShoppingCart toModel(ShoppingCartDto dto);
 
@@ -43,14 +42,5 @@ public interface ShoppingCartMapper {
                 .collect(Collectors.toSet());
 
         shoppingCart.setCartItems(cartItems);
-    }
-
-    default User mapUser(Long id) {
-        if (id == null) {
-            return null;
-        }
-        User user = new User();
-        user.setId(id);
-        return user;
     }
 }

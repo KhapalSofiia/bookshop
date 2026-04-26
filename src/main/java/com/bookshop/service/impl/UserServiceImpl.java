@@ -6,12 +6,11 @@ import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.exception.RegistrationException;
 import com.bookshop.mapper.UserMapper;
 import com.bookshop.model.Role;
-import com.bookshop.model.ShoppingCart;
 import com.bookshop.model.User;
 import com.bookshop.model.enums.RoleName;
 import com.bookshop.repository.RoleRepository;
-import com.bookshop.repository.ShoppingCartRepository;
 import com.bookshop.repository.UserRepository;
+import com.bookshop.service.ShoppingCartService;
 import com.bookshop.service.UserService;
 import jakarta.transaction.Transactional;
 import java.util.Set;
@@ -24,11 +23,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
+    private final ShoppingCartService shoppingCartService;
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder encoder;
 
+    @Transactional
     public UserDto registration(UserRegistrationDto userRegistrationDto) {
         if (userRepository.existsByEmail(userRegistrationDto.getEmail())) {
             throw new RegistrationException("User with email "
@@ -42,12 +42,10 @@ public class UserServiceImpl implements UserService {
         Role role = roleRepository.findByName(RoleName.USER)
                 .orElseThrow(() -> new EntityNotFoundException("Role USER not found."));
         user.setRoles(Set.of(role));
+        User savedUser = userRepository.save(user);
 
-        userRepository.save(user);
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUser(user);
-        shoppingCartRepository.save(shoppingCart);
+        shoppingCartService.createShoppingCart(savedUser);
 
-        return userMapper.toUserDto(user);
+        return userMapper.toUserDto(savedUser);
     }
 }
