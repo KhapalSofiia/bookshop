@@ -48,6 +48,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/cart-items/{cartItemId}")
+    @DeleteMapping("/items/{cartItemId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete book from shopping cart",
             description = "Delete book from shopping cart")
