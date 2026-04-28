@@ -82,7 +82,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
-    private ShoppingCart getShoppingCartByEmail(String email) {
+    protected ShoppingCart getShoppingCartByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() ->
                 new EntityNotFoundException("User with email "
                         + email + "not found"));

@@ -35,7 +35,7 @@ public class ShoppingCartController {
         return shoppingCartService.addBookToCart(getEmail(), addBookToCartDto);
     }
 
-    @PutMapping("/items/{cartItemId}")
+    @PutMapping("/cart-items/{cartItemId}")
     @Operation(summary = "Change quantity of books in shopping cart",
             description = "Change quantity of books in shopping cart")
     public ShoppingCartDto updateBookQuantity(@PathVariable Long cartItemId,
@@ -47,7 +47,7 @@ public class ShoppingCartController {
         );
     }
 
-    @DeleteMapping("/items/{cartItemId}")
+    @DeleteMapping("/cart-items/{cartItemId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete book from shopping cart",
             description = "Delete book from shopping cart")
@@ -62,7 +62,7 @@ public class ShoppingCartController {
         return shoppingCartService.getCart(getEmail());
     }
 
-    private String getEmail() {
+    protected static String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }
