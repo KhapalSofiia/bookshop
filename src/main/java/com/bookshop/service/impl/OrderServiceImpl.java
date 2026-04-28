@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
                 () -> new EntityNotFoundException("User with email " + email + " not found")
         );
 
-         return orderRepository.findByUser(user)
+        return orderRepository.findByUser(user)
                 .stream()
                 .map(orderMapper::toDto)
                 .toList();
@@ -101,7 +101,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderItemDto getOrderItem(Long orderId, Long orderItemId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() -> new EntityNotFoundException(
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException(
                 "Order with id " + orderId + " not found"));
         OrderItem orderItem = orderItemRepository.getByOrderAndId(order, orderItemId)
                 .orElseThrow(() -> new EntityNotFoundException(
