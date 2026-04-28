@@ -12,6 +12,10 @@ databaseChangeLog:
   - include:
       file: db/changelog/init/create-book-category-table.yaml
   - include:
+      file: db/changelog/init/create-order-table.yaml
+  - include:
+      file: db/changelog/init/create-order-item-table.yaml
+  - include:
       file: db/changelog/data/insert-roles.yaml
   - include:
       file: db/changelog/data/insert-admin-user.yaml
