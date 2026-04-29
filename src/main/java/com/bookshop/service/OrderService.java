@@ -7,9 +7,9 @@ import com.bookshop.dto.UpdateOrderStatusDto;
 import java.util.List;
 
 public interface OrderService {
-    List<OrderDto> getAllOrders(String email);
+    List<OrderDto> getAllOrders(Long userId);
 
-    OrderDto placeOrder(String email, PlaceOrderDto orderDto);
+    OrderDto placeOrder(Long userId, PlaceOrderDto orderDto);
 
     OrderDto updateOrderStatus(UpdateOrderStatusDto updateOrderStatus, Long orderId);
 

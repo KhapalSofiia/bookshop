@@ -11,11 +11,9 @@ import com.bookshop.model.CartItem;
 import com.bookshop.model.Order;
 import com.bookshop.model.OrderItem;
 import com.bookshop.model.ShoppingCart;
-import com.bookshop.model.User;
 import com.bookshop.model.enums.OrderStatus;
 import com.bookshop.repository.OrderItemRepository;
 import com.bookshop.repository.OrderRepository;
-import com.bookshop.repository.UserRepository;
 import com.bookshop.service.OrderService;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
@@ -29,7 +27,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-    private final UserRepository userRepository;
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
@@ -38,12 +35,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public List<OrderDto> getAllOrders(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(
-                () -> new EntityNotFoundException("User with email " + email + " not found")
-        );
-
-        return orderRepository.findByUser(user)
+    public List<OrderDto> getAllOrders(Long userId) {
+        return orderRepository.findByUserId(userId)
                 .stream()
                 .map(orderMapper::toDto)
                 .toList();
@@ -51,9 +44,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderDto placeOrder(String email, PlaceOrderDto orderDto) {
-        ShoppingCart shoppingCart = shoppingCartServiceImpl.getShoppingCartByEmail(email);
+    public OrderDto placeOrder(Long userId, PlaceOrderDto orderDto) {
+        ShoppingCart shoppingCart = shoppingCartServiceImpl.getCartOrThrow(userId);;
 
+        if (shoppingCart.getCartItems().isEmpty()) {
+            throw new IllegalArgumentException("Shopping cart is empty");
+        }
         Order order = new Order();
         order.setUser(shoppingCart.getUser());
         order.setShippingAddress(orderDto.getShippingAddress());

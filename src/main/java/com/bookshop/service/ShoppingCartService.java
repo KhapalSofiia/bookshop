@@ -6,14 +6,14 @@ import com.bookshop.dto.UpdateCartItemDto;
 import com.bookshop.model.User;
 
 public interface ShoppingCartService {
-    ShoppingCartDto addBookToCart(String email, AddBookToCartDto addBookToCartDto);
+    ShoppingCartDto addBookToCart(Long userId, AddBookToCartDto addBookToCartDto);
 
-    ShoppingCartDto updateBookQuantity(String email, Long bookId,
+    ShoppingCartDto updateBookQuantity(Long userId, Long bookId,
                                        UpdateCartItemDto updateCartItemDto);
 
-    void removeBookFromCart(String email, Long cartItemId);
+    void removeBookFromCart(Long userId, Long cartItemId);
 
-    ShoppingCartDto getCart(String email);
+    ShoppingCartDto getCart(Long userId);
 
     void createShoppingCart(User user);
 }
