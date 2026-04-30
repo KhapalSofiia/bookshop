@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface OrderItemRepository extends JpaRepository<OrderItem, Long> {
     Optional<OrderItem> getByOrderAndId(Order order, Long orderItemId);
+    
     Page<OrderItem> findByOrderId(Long orderId, Pageable pageable);
 }
