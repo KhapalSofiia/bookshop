@@ -7,7 +7,6 @@ import com.bookshop.dto.UpdateOrderStatusDto;
 import com.bookshop.exception.EntityNotFoundException;
 import com.bookshop.mapper.OrderItemMapper;
 import com.bookshop.mapper.OrderMapper;
-import com.bookshop.model.CartItem;
 import com.bookshop.model.Order;
 import com.bookshop.model.OrderItem;
 import com.bookshop.model.ShoppingCart;
@@ -18,10 +17,11 @@ import com.bookshop.service.OrderService;
 import jakarta.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,11 +35,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public List<OrderDto> getAllOrders(Long userId) {
-        return orderRepository.findByUserId(userId)
-                .stream()
-                .map(orderMapper::toDto)
-                .toList();
+    public Page<OrderDto> getAllOrders(Long userId, Pageable pageable) {
+        return orderRepository.findByUserId(userId, pageable)
+                .map(orderMapper::toDto);
     }
 
     @Override
@@ -48,7 +46,8 @@ public class OrderServiceImpl implements OrderService {
         ShoppingCart shoppingCart = shoppingCartServiceImpl.getCartOrThrow(userId);;
 
         if (shoppingCart.getCartItems().isEmpty()) {
-            throw new IllegalArgumentException("Shopping cart is empty");
+            throw new IllegalArgumentException(
+                    "Shopping cart is empty for user with id: " + userId);
         }
         Order order = new Order();
         order.setUser(shoppingCart.getUser());
@@ -86,12 +85,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public List<OrderItemDto> getOrderItems(Long orderId) {
-        return orderRepository.findById(orderId)
-                .stream()
-                .flatMap(order -> order.getOrderItems().stream())
-                .map(orderItemMapper::toDto)
-                .toList();
+    public Page<OrderItemDto> getOrderItems(Long orderId, Pageable pageable) {
+        return orderItemRepository.findByOrderId(orderId, pageable)
+                .map(orderItemMapper::toDto);
     }
 
     @Override

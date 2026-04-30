@@ -9,8 +9,10 @@ import com.bookshop.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +41,9 @@ public class OrderController {
     @GetMapping
     @Operation(summary = "Get all orders.",
             description = "Get all orders of user.")
-    public List<OrderDto> getAllOrders(@AuthenticationPrincipal User user) {
-        return orderService.getAllOrders(user.getId());
+    public Page<OrderDto> getAllOrders(@AuthenticationPrincipal User user,
+                                       @ParameterObject Pageable pageable) {
+        return orderService.getAllOrders(user.getId(), pageable);
     }
 
     @PatchMapping("/{id}")
@@ -57,15 +60,16 @@ public class OrderController {
     @GetMapping("/{orderId}/items")
     @Operation(summary = "Get all items for order",
             description = "Get all items for a order.")
-    public List<OrderItemDto> getAllOrderItems(@PathVariable Long orderId) {
-        return orderService.getOrderItems(orderId);
+    public Page<OrderItemDto> getAllOrderItems(@PathVariable Long orderId,
+                                               @ParameterObject Pageable pageable) {
+        return orderService.getOrderItems(orderId, pageable);
     }
 
     @GetMapping("/{orderId}/items/{itemId}")
     @Operation(summary = "Get item for order",
             description = "Get item for order by its id")
     public OrderItemDto getOrderItem(@PathVariable Long orderId,
-                                         @PathVariable Long itemId) {
+                                     @PathVariable Long itemId) {
         return orderService.getOrderItem(orderId, itemId);
     }
 }
