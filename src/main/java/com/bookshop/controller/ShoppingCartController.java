@@ -8,7 +8,7 @@ import com.bookshop.service.ShoppingCartService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/cart")
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Tag(name = "Shopping cart management", description = "Endpoints for managing shopping cart")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
