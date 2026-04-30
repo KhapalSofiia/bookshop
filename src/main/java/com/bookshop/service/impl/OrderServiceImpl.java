@@ -56,7 +56,8 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(LocalDateTime.now());
 
         Set<OrderItem> orderItems = shoppingCart.getCartItems().stream()
-                .map(cartItem -> convertToOrderItem(cartItem, order))
+                .map(cartItem -> orderItemMapper
+                        .cartItemToOrderItem(cartItem, order))
                 .collect(Collectors.toSet());
         order.setOrderItems(orderItems);
 
@@ -100,15 +101,6 @@ public class OrderServiceImpl implements OrderService {
         return orderItemMapper.toDto(orderItem);
     }
 
-    private OrderItem convertToOrderItem(CartItem cartItem, Order order) {
-        OrderItem orderItem = new OrderItem();
-
-        orderItem.setOrder(order);
-        orderItem.setBook(cartItem.getBook());
-        orderItem.setQuantity(cartItem.getQuantity());
-        orderItem.setPrice(cartItem.getBook().getPrice());
-
-        return orderItem;
     private Order getOrderById(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException(
