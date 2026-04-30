@@ -75,8 +75,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderDto updateOrderStatus(UpdateOrderStatusDto updateOrderStatus, Long orderId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(() ->
-                new EntityNotFoundException("Order with id " + orderId + " not found"));
+        Order order = getOrderById(orderId);
 
         order.setStatus(updateOrderStatus.getStatus());
 
@@ -93,9 +92,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public OrderItemDto getOrderItem(Long orderId, Long orderItemId) {
-        Order order = orderRepository.findById(orderId).orElseThrow(
-                () -> new EntityNotFoundException(
-                "Order with id " + orderId + " not found"));
+        Order order = getOrderById(orderId);
         OrderItem orderItem = orderItemRepository.getByOrderAndId(order, orderItemId)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "OrderItem with id " + orderItemId + " not found"));
@@ -112,5 +109,10 @@ public class OrderServiceImpl implements OrderService {
         orderItem.setPrice(cartItem.getBook().getPrice());
 
         return orderItem;
+    private Order getOrderById(Long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Order with id " + orderId + " not found"));
     }
+
 }
